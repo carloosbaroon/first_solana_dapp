@@ -1,12 +1,14 @@
 "use client";
 
-import React, {useState} from "react";
-import {useWallet} from "@solana/wallet-adapter-react";
+import React, { useState } from "react";
+import { useWallet } from "@solana/wallet-adapter-react";
+import { useRouter } from "next/navigation";
 import bs58 from "bs58";
 
 export default function SigninPage() {
-    const {publicKey, signMessage} = useWallet();
+    const { publicKey, signMessage } = useWallet();
     const [isSignedIn, setIsSignedIn] = useState(false);
+    const router = useRouter();
 
     const handleSignIn = async () => {
         if (!publicKey || !signMessage) {
@@ -27,6 +29,8 @@ export default function SigninPage() {
 
             setIsSignedIn(true);
             alert("Sign-in successful!");
+
+            router.push("/address");
         } catch (error) {
             console.error("Error signing message:", error);
             alert("Sign-in failed. Please try again.");
