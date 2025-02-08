@@ -3,13 +3,13 @@
 import { useConnection, useWallet } from "@solana/wallet-adapter-react";
 import { LAMPORTS_PER_SOL } from "@solana/web3.js";
 import { useEffect, useState } from "react";
+import ModalSend from "../components/ModalSend";
 
 export default function Address() {
     const { connection } = useConnection();
     const { publicKey } = useWallet();
     const [balance, setBalance] = useState<number>(0);
-
-    // code for the `getAirdropOnClick` function here
+    const [showModal, setShowModal] = useState(false);
 
     useEffect(() => {
         if (publicKey) {
@@ -19,17 +19,29 @@ export default function Address() {
                 setTimeout(getBalanceEvery10Seconds, 10000);
             })();
         }
-    }, [publicKey, connection, balance]);
+    }, [publicKey, connection]);
 
     return (
         <main className="flex min-h-screen flex-col items-center justify-evenly p-24">
             {publicKey ? (
-                <div className="flex flex-col gap-4">
-                    <h1>Your Public key is: {publicKey?.toString()}</h1>
-                    <h2>Your Balance is: {balance} SOL</h2>
-                </div>
+                    <div className="flex flex-col gap-4">
+                        <h1>Your Public key is: {publicKey?.toString()}</h1>
+                        <h2>Your Balance is: {balance} SOL</h2>
+                        <button
+                            className="btn btn-primary mt-4"
+                            onClick={() => setShowModal(true)}>
+                            Send SOL
+                        </button>
+                    </div>
             ) : (
                 <h1>Wallet is not connected</h1>
+            )}
+
+            {showModal && publicKey && (
+                <ModalSend
+                    show={showModal}
+                    hide={() => setShowModal(false)}
+                    address={publicKey}/>
             )}
         </main>
     );
