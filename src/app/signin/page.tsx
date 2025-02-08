@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import { useWallet } from "@solana/wallet-adapter-react";
+import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
 import { useRouter } from "next/navigation";
 import bs58 from "bs58";
 
@@ -38,12 +39,18 @@ export default function SigninPage() {
     };
 
     return (
-        <main className="flex items-center justify-center min-h-screen bg-black">
-            <button
-                onClick={handleSignIn}
-                className="flex items-center justify-center bg-purple-600 text-white font-bold py-2 px-4 rounded-lg shadow-lg hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:ring-opacity-50">
-                {isSignedIn ? "Signed In!" : "Sign In"}
-            </button>
+        <main className="flex items-center justify-center min-h-screen">
+            <div className="flex flex-col items-center gap-4">
+                <div className="border hover:border-slate-900 rounded">
+                    <WalletMultiButton />
+                </div>
+                <button
+                    onClick={handleSignIn}
+                    className="bg-purple-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-purple-700 transition">
+                    {isSignedIn ? "Signed In!" : "Sign In"}
+                </button>
+            </div>
         </main>
     );
+
 };
