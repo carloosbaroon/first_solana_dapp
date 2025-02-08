@@ -42,7 +42,7 @@ export default function Address() {
                     <h1>Your Public key is: {publicKey?.toString()}</h1>
                     <h2>Your Balance is: {balance} SOL</h2>
                     <button
-                        className="btn btn-primary mt-4"
+                        className="bg-purple-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-purple-700 transition"
                         onClick={() => setShowModal(true)}>
                         Send SOL
                     </button>
