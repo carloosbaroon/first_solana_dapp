@@ -18,7 +18,7 @@ export default function SigninPage() {
 
     const handleSignIn = async () => {
         if (!publicKey || !signMessage) {
-            console.error("Wallet not connected or signMessage not available");
+            alert("Wallet not connected or signMessage not available");
             return;
         }
 
