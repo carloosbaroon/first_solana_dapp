@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
 import { useRouter } from "next/navigation";
@@ -9,7 +9,12 @@ import bs58 from "bs58";
 export default function SigninPage() {
     const { publicKey, signMessage } = useWallet();
     const [isSignedIn, setIsSignedIn] = useState(false);
+    const [isClient, setIsClient] = useState(false);
     const router = useRouter();
+
+    useEffect(() => {
+        setIsClient(true);
+    }, []);
 
     const handleSignIn = async () => {
         if (!publicKey || !signMessage) {
@@ -38,6 +43,11 @@ export default function SigninPage() {
         }
     };
 
+    // Only render the component on the client
+    if (!isClient) {
+        return null; // Prevent rendering on the server
+    }
+
     return (
         <main className="flex items-center justify-center min-h-screen">
             <div className="flex flex-col items-center gap-4">
@@ -52,5 +62,4 @@ export default function SigninPage() {
             </div>
         </main>
     );
-
 };

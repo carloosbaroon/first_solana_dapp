@@ -49,18 +49,22 @@ export default function ModalSend({ show, hide, address }: ModalSendProps) {
                         disabled={!destination || !amount}
                         className="bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700 transition"
                         onClick={() => {
-                            mutateAsync({
-                                destination: new PublicKey(destination),
-                                amount: parseFloat(amount),
-                            })
-                                .then(() => hide())
-                                .catch((err) => console.error("Transaction failed:", err));
+                            try {
+                                const publicKey = new PublicKey(destination); // Try to create the PublicKey
+                                mutateAsync({
+                                    destination: publicKey,
+                                    amount: parseFloat(amount),
+                                })
+                                    .then(() => hide())
+                                    .catch((err) => console.error("Transaction failed:", err));
+                            } catch (err) {
+                                alert("Invalid Solana address. Please enter a valid address."); // Show alert on error
+                            }
                         }}>
                         Send
                     </button>
                 </div>
             </div>
         </div>
-
     );
 }
